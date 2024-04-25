@@ -7,8 +7,8 @@ import styles from './Form.module.css';
 let edit = -1;
 export default function Form() {
   const [txtValue, setTxtValue] = useState('');
-
   const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleChange = (e) => {
     setTxtValue(e.target.value);
@@ -43,6 +43,8 @@ export default function Form() {
     }
 
     setTxtValue('');
+
+    localStorage.setItem('tasks', JSON.stringify([txtValue, ...tasks]));
   }
 
   const taskEdit = (e, indice) => {
@@ -63,17 +65,20 @@ export default function Form() {
   }
 
   useEffect(() => {
-    const todos = JSON.parse(localStorage.getItem('tasks'));
 
-    if(todos) {
-      setTasks(tasks);
+    const getTask = async () => {
+      const todos = await JSON.parse(localStorage.getItem('tasks'));
+
+      if(todos) {
+        setTasks(todos);
+      }
+
+      setIsLoading(false);
     }
 
-  }, []);
+    getTask();
 
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
+  }, []);
 
   return (
     <>
@@ -96,21 +101,26 @@ export default function Form() {
       </form>
 
       <section className={styles.tasks}>
-        <ul>
-          {!tasks.length && (
-            <p>No tasks (0).</p>
-          )}
 
-          {tasks.map((t, indice) => (
-            <li key={t} className={styles.taskActions}>
-              {t}
-              <div>
-                <span onClick={(e) => taskEdit(e, indice)}>+</span>
-                <span onClick={(e) => handleDelete(e, indice)}>-</span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        {isLoading && <p>Loading...</p>}
+
+        {!isLoading && (
+          <ul>
+            {!tasks.length && (
+              <p>No tasks (0).</p>
+            )}
+
+            {tasks.map((t, indice) => (
+              <li key={t} className={styles.taskActions}>
+                {t}
+                <div>
+                  <span onClick={(e) => taskEdit(e, indice)}>+</span>
+                  <span onClick={(e) => handleDelete(e, indice)}>-</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </>
   )
