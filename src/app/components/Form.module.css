@@ -1,0 +1,40 @@
+.form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+
+.input {
+  width: 100%;
+  max-width: 600px;
+  padding: 1.2rem 1.8rem;
+}
+
+.tasks ul li:hover {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.tasks ul li:hover span:hover:first-child {
+  cursor: pointer;
+  color: green;
+}
+
+.tasks ul li:hover span:hover:last-child {
+  cursor: pointer;
+  color: red;
+}
+
+.taskActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  margin: 3rem 0;
+}
+
+.taskActions span {
+  font-size: 2rem;
+  margin: 0 1rem;
+}

@@ -40,6 +40,19 @@
   --card-border-rgb: 131, 134, 135;
 }
 
+button {
+  border: 0;
+  padding: 1rem 2rem;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button.primary {
+  background-color: rgb(62, 62, 225);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
